@@ -27,13 +27,18 @@ const DeleteButton = ({ id }) => {
     onSuccess: (data, variables, context) => {
       console.log(data);
       toast({
-        description: "Sunday, December 03, 2023 at 9:00 AM",
-        variant: "",
+        description: "Successfully Deleted!",
+        status: "success",
+        variant: "secondary",
       });
       queryClient.invalidateQueries(["admin-post", pagination]);
     },
     onError: (e) => {
-      console.log(e);
+      toast({
+        title: "title",
+        description: "Something Error",
+        variant: "destructive",
+      });
     },
   });
 
