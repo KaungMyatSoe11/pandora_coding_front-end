@@ -17,10 +17,10 @@ const PostCard = ({ post }) => {
           <h3 className="text-xl font-bold text-gray-900 dark:text-gray-50">
             {post.title}
           </h3>
-          <p className="mt-2 text-gray-600 dark:text-gray-400">
+          {/* <p className="mt-2 text-gray-600 dark:text-gray-400">
             Discover the beauty and serenity of the great outdoors in this
             captivating blog post.
-          </p>
+          </p> */}
         </div>
       </Link>
     </div>
