@@ -5,6 +5,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
+  DialogTrigger,
 } from "../ui/dialog";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
@@ -23,19 +24,18 @@ import { useContext, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "react-query";
 import { PostContext } from "@/store/postProvider";
-import { toast } from "sonner";
+import { useToast } from "../ui/use-toast";
 
 const schema = z.object({
   title: z.string().nonempty(),
   content: z.string().nonempty(),
 });
 
-const CreateAdminForm = ({
-  isCreatePostModalOpen,
-  handleCloseCreatePostModal,
-}) => {
+const CreateAdminForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { createPost, pagination } = useContext(PostContext);
+  const [isOpen, setIsOpen] = useState(false);
+  const toast = useToast();
 
   const form = useForm({
     resolver: zodResolver(schema),
@@ -52,12 +52,14 @@ const CreateAdminForm = ({
     onSuccess: (data) => {
       QueryClient.invalidateQueries(["admin-post", pagination]);
       console.log(data);
-      if (data.status) {
-        setIsLoading(false);
-        handleCloseCreatePostModal();
-        form.reset();
-        toast.success("Post Created Successfully!");
-      }
+      setIsLoading(false);
+      setIsOpen(false);
+      form.reset();
+      toast({
+        description: "Successfully Created!",
+        status: "success",
+        variant: "secondary",
+      });
     },
     onError: (e) => {
       setIsLoading(false);
@@ -73,10 +75,10 @@ const CreateAdminForm = ({
   };
 
   return (
-    <Dialog
-      open={isCreatePostModalOpen}
-      onOpenChange={handleCloseCreatePostModal}
-    >
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <DialogTrigger asChild>
+        <Button>Create Post</Button>
+      </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>

@@ -20,11 +20,9 @@ import { Button } from "../ui/button";
 import CreateAdminForm from "./CreateAdminForm";
 
 const AdminPostList = () => {
-  const { getAllPostAdmin, pagination, setPagination } = useContext(
-    PostContext
-  );
+  const { getAllPostAdmin, pagination, setPagination } =
+    useContext(PostContext);
 
-  const [isCreatePostModalOpen, setIsCreatePostModalOpen] = useState(false);
   const defaultData = useMemo(() => [], []);
 
   const { data, isLoading } = useQuery({
@@ -49,19 +47,11 @@ const AdminPostList = () => {
     // autoResetPageIndex: false, // turn off page index reset when sorting or filtering
   });
 
-  const handleCreate = () => {
-    setIsCreatePostModalOpen(true);
-  };
-  const handleCloseCreatePostModal = () => {
-    setIsCreatePostModalOpen(false);
-  };
-
-  console.log(table.getPageCount());
   return (
     <>
       <div className="flex items-center justify-between mt-10">
         <h1 className="text-2xl font-bold">Blog Posts</h1>
-        <Button onClick={handleCreate}>Create Post</Button>
+        <CreateAdminForm />
       </div>
       <div className="rounded-md border mt-5">
         <Table>
@@ -74,7 +64,7 @@ const AdminPostList = () => {
                       ? null
                       : flexRender(
                           header.column.columnDef.header,
-                          header.getContext()
+                          header.getContext(),
                         )}
                   </TableHead>
                 ))}
@@ -143,11 +133,6 @@ const AdminPostList = () => {
           />
         </span>
       </div>
-
-      <CreateAdminForm
-        handleCloseCreatePostModal={handleCloseCreatePostModal}
-        isCreatePostModalOpen={isCreatePostModalOpen}
-      />
     </>
   );
 };
