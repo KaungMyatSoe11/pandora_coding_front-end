@@ -17,7 +17,7 @@ const Header = () => {
       </Link>
       <nav className="hidden md:flex items-center gap-6">
         <Link
-          href="admin/post"
+          href="/admin/post"
           className={`text-sm font-medium hover:underline ${!data?.user && "hidden"}`}
           prefetch={false}
         >
